@@ -1,16 +1,15 @@
-#include "player.h"
 #include <raylib.h>
 
-#include <stdio.h>
-
-// #define GREEN (Color){0, 255, 136, 255}
+#include "player.h"
+#include "sprite.h"
 
 int main(void) {
-
     const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenHeight = 1000;
 
+    SetTraceLogLevel(LOG_NONE);  
     SetConfigFlags(FLAG_MSAA_4X_HINT);  // Enable anti-aliasing
+
     InitWindow(screenWidth, screenHeight, "raylib");
 
     SetTargetFPS(60);
@@ -18,17 +17,10 @@ int main(void) {
     Player player;
     InitPlayer(&player);
 
-    Texture2D car = LoadTexture("assets/orange.png");
-    const float carScale = 0.2f;
+    SpriteSheet carSheet = LoadSpriteSheet("assets/orange.png", 2, 0.2f);
 
-    Rectangle carSrc = {0.0f, 0.0f, (float)car.width, (float)car.height};
-    Rectangle carDest = {screenWidth * 0.5f, screenHeight * 0.5f, car.width * carScale, car.height * carScale};
-
-    Vector2 carOrigin = (Vector2){car.width * carScale * 0.5f, (float)car.height * carScale * 0.5f};
-    // Vector2 carOrigin = (Vector2){0.0f, 0.0f};
-
+    int ticker = 0;
     while (!WindowShouldClose()) {
-        
         // Event Handling
         if (IsKeyPressed(KEY_W)) {
             AcceleratePlayer(&player, PLAYER_ACCEL);
@@ -57,24 +49,23 @@ int main(void) {
         // Update entities
         UpdatePlayer(&player, dt);
 
-        carDest.x = player.pos.x;
-        carDest.y = player.pos.y;
-
         // Drawing routines
         BeginDrawing();
-            ClearBackground(GREEN);
-            // DrawCircle(player.pos.x, player.pos.y, 10.0f, BLACK);
-            // DrawLine(player.pos.x, player.pos.y, player.pos.x + player.facing.x * 20.0f, player.pos.y + player.facing.y * 20.0f, BLACK);
-            
-            // DrawTextureEx(car, player.pos, player.angVel, 0.1f, WHITE);
-            DrawTexturePro(car, carSrc, carDest, carOrigin, player.angle * (180 / PI), WHITE);
+        ClearBackground(GREEN);
 
-            // DrawText("Congrats! You created your first window!", 190, 200, 20, DARKGRAY);
-            
+#define ABS(x) (x < 0.0f ? -x : x)
+
+        DrawSprite(
+            &carSheet,
+            (int)(ticker * 0.02f * (ABS(player.accel) * 0.005f + 1.0f)) % 2,
+            player.pos, player.angle);
+
         EndDrawing();
+
+        ticker++;
     }
 
+    UnloadSpriteSheet(carSheet);
     CloseWindow();
     return 0;
 }
-
