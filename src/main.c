@@ -1,23 +1,26 @@
 #include <raylib.h>
+#include <stdio.h>
 
 #include "player.h"
 #include "sprite.h"
+#include "track.h"
 
 int main(void) {
     const int screenWidth = 800;
     const int screenHeight = 1000;
 
-    SetTraceLogLevel(LOG_NONE);  
+    SetTraceLogLevel(LOG_NONE);
     SetConfigFlags(FLAG_MSAA_4X_HINT);  // Enable anti-aliasing
 
     InitWindow(screenWidth, screenHeight, "raylib");
 
     SetTargetFPS(60);
 
-    Player player;
-    InitPlayer(&player);
-
     SpriteSheet carSheet = LoadSpriteSheet("assets/orange.png", 2, 0.2f);
+
+    Track track = LoadTrack();
+
+    Player player = LoadPlayer(carSheet.dest.width, carSheet.dest.height);
 
     int ticker = 0;
     while (!WindowShouldClose()) {
@@ -47,11 +50,13 @@ int main(void) {
         float dt = GetFrameTime();
 
         // Update entities
-        UpdatePlayer(&player, dt);
+        UpdatePlayer(&player, &track, dt);
 
         // Drawing routines
         BeginDrawing();
         ClearBackground(GREEN);
+
+        DrawTrack(&track);
 
 #define ABS(x) (x < 0.0f ? -x : x)
 

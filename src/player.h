@@ -3,6 +3,8 @@
 
 #include <raylib.h>
 
+#include "track.h"
+
 #define PLAYER_TURN 40.0f
 #define PLAYER_ACCEL 400.0f
 
@@ -14,12 +16,14 @@ typedef struct {
     float angle;
     float angVel;
     float angAccel;
+
+    Vector2 dims;
 } Player;
 
-void InitPlayer(Player *player);
+Player LoadPlayer(float w, float h);
 void AcceleratePlayer(Player *player, float acc);
 void RotatePlayer(Player *player, float angle);
 
-void UpdatePlayer(Player *player, float dt);
+void UpdatePlayer(Player *player, Track *track, float dt);
 
 #endif  // PLAYER_H
