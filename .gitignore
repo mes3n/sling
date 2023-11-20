@@ -2,3 +2,5 @@ bin
 obj
 compile_flags.txt
 deps
+assets/*
+!assets/orange.png
