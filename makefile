@@ -49,5 +49,6 @@ run: main
 all: clean main
 
 clean:
-	rm -rf bin/* obj/*
+	rm -rf bin obj
+	mkdir bin obj
 
