@@ -2,7 +2,7 @@
 
 A small car game developed in C using Raylib
 
-## Installation
+## Compiling
 
 ### Raylib
 
@@ -46,4 +46,37 @@ cp --update /path/to/raylib/src/rlgl.h deps
 ```shell
 sudo make install RAYLIB_LIBTYPE=SHARED # Dynamic shared version.
 ```
+
+Please refer to [Raylib](https://www.raylib.com/) for further instructions.
+
+### Sling
+
+Compile the project from scratch.
+
+```
+make all
+```
+
+## Playing
+
+The game can be started with:
+
+```
+make run
+```
+or
+```
+./bin/main
+```
+
+### Controls
+
+Drive the car with <kbd>WASD</kbd> and use <kbd>Space</kbd> to sling yourself around the closest hook connector.
+
+The game can be exited with <kbd>ESC</kbd>
+
+### Aim
+
+The aim of the game is to be as fast as possible from start to finish. Properly using your hook is a key to this,
+but make sure to stay on the track as well since the car drives much faster when it's on a good surface!
 
